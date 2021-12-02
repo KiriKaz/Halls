@@ -1,9 +1,39 @@
-import type { NextPage } from 'next';
+import { PrismaClient } from '.prisma/client';
+import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
+import { ParsedUrlQuery } from 'querystring';
+import { client } from '../index';
 
-const Home: NextPage = () => {
+
+interface Params extends ParsedUrlQuery {
+  slug: string
+}
+
+export const getServerSideProps: GetServerSideProps<any, Params> = async (context) => {  // Identify how to type this. Prisma type from model.
+  const { slug } = context.params!;
+
+  const post = await client.post.findFirst({
+    where: {
+      slug
+    }
+  });
+
+  if (post === null) {
+    return { notFound: true };
+  }
+
+  return {
+    props: {
+      post
+    }
+  };
+};
+
+const Home = ({ post }: { post: any }) => { // Identify how to type this. Prisma type from model. InferGetSerevrSidePropsType
   return (
     <div>
-      Answer: Board the Great Eastern Sun, and find out yourself, silly.
+      {post.title} {' '}
+      {post.slug} {' '}
+      {post.content} {' '}
     </div>
   );
 };

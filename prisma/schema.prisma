@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          String  @id @default(cuid())
+  slug        String // adv
+  fullName    String // Adventure
+  description String? // Stories that involve one or more characters undergoing an epic.
+  posts       Post[]
+}
+
+model Post {
+  id           String        @id @default(cuid())
+  createTime   DateTime      @default(now())
+  indexable    Boolean       @default(false)
+  author       User          @relation(fields: [userId], references: [id])
+  slug         String
+  title        String
+  content      String
+  tags         String[]
+  viewCount    Int // Potentially add "read by" function later on. Will need refactoring here.
+  commentCount Int // Do we actually want to handle this this way?
+  comments     PostComment[]
+  reviewCount  Int
+  reviews      PostReview[]
+  likes        Int // Not linked to any particular user at the post-level - instead linked by user-level. WHERE user.likedPosts has Post.id
+  userId       String
+  category     Category?     @relation(fields: [categoryId], references: [id])
+  categoryId   String?
+}
+
+model User {
+  id           String        @id @default(cuid())
+  createTime   DateTime      @default(now())
+  username     String
+  profileBio   String?
+  pfp          String // URL to profile pic in-server (or out-server, really, I'm not the boss of you.)
+  password     String
+  authLevel    AuthLevel     @default(USER)
+  // System integration later
+  posts        Post[]
+  postComments PostComment[]
+}
+
+enum AuthLevel {
+  USER
+  BETA
+  AUTHOR
+  MOD
+  ADMIN
+  EASTERN
+}
+
+model PostReview {
+  id     String  @id @default(cuid())
+  value  Float // Out of 5
+  body   String? // Nullable for the Krises of this world (will be markdown)
+  post   Post?   @relation(fields: [postId], references: [id])
+  postId String?
+}
+
+model PostComment {
+  id             String   @id @default(cuid())
+  createTime     DateTime @default(now())
+  lastEditedTime DateTime @default(now())
+  author         User     @relation(fields: [userId], references: [id])
+  body           String
+  post           Post?    @relation(fields: [postId], references: [id])
+  postId         String?
+  userId         String
+  postReviewId   String?  @unique
+}
+
+model ProfileComment {
+  id               String           @id @default(cuid())
+  createdAt        DateTime         @default(now())
+  replies          ProfileComment[] @relation("ProfileCommentToProfileComment")
+  likes            Int
+  dislikes         Int // Do the Youtube thing
+  profileComment   ProfileComment?  @relation("ProfileCommentToProfileComment", fields: [profileCommentId], references: [id])
+  profileCommentId String?
+}
