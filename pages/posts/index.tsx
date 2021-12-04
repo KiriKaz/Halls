@@ -1,9 +1,9 @@
 import React from "react";
-import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
-import Link from "next/link";
-import superjson from "superjson";
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import client from '../../lib/prisma';
+import { Container, Divider, List, ListItem, ListItemButton, ListItemText, Paper, Typography } from "@mui/material";
+import { ButtonLink } from "../../components/ButtonLink";
 
 interface Post {
   rawContent?: any,
@@ -29,20 +29,23 @@ export const getStaticProps: GetStaticProps<IPostsProps> = async () => {
 
 const Posts = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <div>
-      <h1>List of posts</h1>
-      <ul>
-        {posts.map((post, idx) => {
-          return (
-            <li key={post.id}>
-              <Link href={`/posts/${post.slug}`}>
-                <a>{post.title}</a>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <Container>
+      <Paper elevation={2}>
+        <Typography padding={4} variant="h4">List of posts</Typography>
+        <Divider />
+        <List>
+          {posts.map((post) => {
+            return (
+              <ListItem key={post.id}>
+                <ListItemButton component={ButtonLink} to={`/posts/${post.slug}`}>
+                  <ListItemText primary={post.title} primaryTypographyProps={{ color: 'lightcoral' }} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
+      </Paper>
+    </Container>
   );
 };
 

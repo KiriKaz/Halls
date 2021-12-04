@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { createEditor, BaseEditor, Descendant, Transforms, Editor, Text, Element } from 'slate';
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
 import { withHistory, HistoryEditor } from 'slate-history';
-import { Button, ButtonGroup, Grid } from '@mui/material';
+import router from 'next/router';
+import { Button, ButtonGroup, Container, Grid } from '@mui/material';
 
 import { CustomElement } from '../../types/CustomElement';
 import { CustomText } from '../../types/CustomText';
@@ -22,10 +23,6 @@ import SuperscriptIcon from '@mui/icons-material/Superscript';
 import SubscriptIcon from '@mui/icons-material/Subscript';
 import FormatClearIcon from '@mui/icons-material/FormatClear';
 import SaveIcon from '@mui/icons-material/Save';
-import { GetServerSideProps } from 'next';
-// import { PrismaClient } from '.prisma/client';
-
-import client from '../../lib/prisma';
 
 type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
 
@@ -430,15 +427,14 @@ const SlateToolbar = ({ editor, value, slug }: { editor: Editor, value: Descenda
   </Grid>
 );
 
-// export const getServerSideProps: GetServerSideProps = async () => {
-// client.post.findFirst({
-//   where: {
-//     slug: params.slug
-//   }
-// });
-// };
-
 const CreatePost = () => {
+
+  useEffect(() => {
+    if (!localStorage.getItem('sessionToken')) {
+      router.push('/login');
+    }
+  }, []);
+
   const initialValue: CustomElement[] = [
     {
       type: 'paragraph',
@@ -465,51 +461,53 @@ const CreatePost = () => {
   // const editor = useMemo(() => withReact(withHistory(createEditor())), []);
   const [editor] = useState(withReact(withHistory(createEditor())));
   return (
-    <Slate value={value} onChange={setValue} editor={editor}>
-      <SlateToolbar editor={editor} value={value} slug={slug} />
-      <Editable
-        renderElement={renderElement}
-        renderLeaf={renderLeaf}
-        onKeyDown={event => {
-          if (!event.ctrlKey) return;
-          switch (event.key) {  // Swap to is-hotkey
-            case '`': {
-              event.preventDefault();
-              CustomEditor.toggleCodeBlock(editor);
-              break;
+    <Container maxWidth='md'>
+      <Slate value={value} onChange={setValue} editor={editor}>
+        <SlateToolbar editor={editor} value={value} slug={slug} />
+        <Editable
+          renderElement={renderElement}
+          renderLeaf={renderLeaf}
+          onKeyDown={event => {
+            if (!event.ctrlKey) return;
+            switch (event.key) {  // Swap to is-hotkey
+              case '`': {
+                event.preventDefault();
+                CustomEditor.toggleCodeBlock(editor);
+                break;
+              }
+              case 'b':
+                event.preventDefault();
+                CustomEditor.toggleBold(editor);
+                break;
+              case 'i':
+                event.preventDefault();
+                CustomEditor.toggleItalics(editor);
+                break;
+              case 'k':
+                event.preventDefault();
+                CustomEditor.toggleStrikethrough(editor);
+                break;
+              case 'u':
+                event.preventDefault();
+                CustomEditor.toggleUnderline(editor);
+                break;
+              case 'y':
+                event.preventDefault();
+                CustomEditor.toggleSuperscript(editor);
+                break;
+              case 'h':
+                event.preventDefault();
+                CustomEditor.toggleSubscript(editor);
+                break;
+              case 'r':
+                event.preventDefault();
+                CustomEditor.resetTags(editor);
+                break;
             }
-            case 'b':
-              event.preventDefault();
-              CustomEditor.toggleBold(editor);
-              break;
-            case 'i':
-              event.preventDefault();
-              CustomEditor.toggleItalics(editor);
-              break;
-            case 'k':
-              event.preventDefault();
-              CustomEditor.toggleStrikethrough(editor);
-              break;
-            case 'u':
-              event.preventDefault();
-              CustomEditor.toggleUnderline(editor);
-              break;
-            case 'y':
-              event.preventDefault();
-              CustomEditor.toggleSuperscript(editor);
-              break;
-            case 'h':
-              event.preventDefault();
-              CustomEditor.toggleSubscript(editor);
-              break;
-            case 'r':
-              event.preventDefault();
-              CustomEditor.resetTags(editor);
-              break;
-          }
-        }}
-      />
-    </Slate>
+          }}
+        />
+      </Slate>
+    </Container>
   );
 };
 
