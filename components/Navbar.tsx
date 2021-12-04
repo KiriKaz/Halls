@@ -1,5 +1,6 @@
 import { AppBar, Button, Drawer, Grid, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 import { ButtonLink } from './ButtonLink';
 
@@ -26,7 +27,11 @@ const Navbar = () => {
               </IconButton>
             </Grid>
             <Grid item>
-              <ButtonLink to="/" color="inherit">Login</ButtonLink>
+              <Link href='/login' passHref>
+                <Button color="inherit" component="a">
+                  Login
+                </Button>
+              </Link>
             </Grid>
           </Grid>
         </Toolbar>
