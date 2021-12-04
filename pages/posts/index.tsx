@@ -3,7 +3,7 @@ import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import Link from "next/link";
 import superjson from "superjson";
 
-import { client } from '../index';
+import client from '../../lib/prisma';
 
 interface Post {
   rawContent?: any,

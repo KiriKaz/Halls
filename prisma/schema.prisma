@@ -25,14 +25,14 @@ model Post {
   author       User          @relation(fields: [userId], references: [id])
   slug         String
   title        String
-  content      String
+  content      Json // Store direct Slate content
   tags         String[]
-  viewCount    Int // Potentially add "read by" function later on. Will need refactoring here.
-  commentCount Int // Do we actually want to handle this this way?
+  viewCount    Int           @default(0) // Potentially add "read by" function later on. Will need refactoring here.
+  commentCount Int           @default(0) // Do we actually want to handle this this way?
   comments     PostComment[]
-  reviewCount  Int
+  reviewCount  Int           @default(0)
   reviews      PostReview[]
-  likes        Int // Not linked to any particular user at the post-level - instead linked by user-level. WHERE user.likedPosts has Post.id
+  likes        Int           @default(0) // Not linked to any particular user at the post-level - instead linked by user-level. WHERE user.likedPosts has Post.id
   userId       String
   category     Category?     @relation(fields: [categoryId], references: [id])
   categoryId   String?
