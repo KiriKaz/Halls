@@ -1,41 +1,30 @@
-import React, { useEffect } from "react";
-import router from 'next/router';
+import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Button, Container, FormControl, InputLabel, TextField } from '@mui/material';
 
-import { UserService } from '../../services/userService';
-
 import axios from 'axios';
+import { UserService } from "../../services/userService";
 
 
-type LoginInputs = {
+type RegisterInputs = {
   username: string,
   email?: string | null,
-  password: string,
-  passwordVerify: string | null
+  password: string
 };
 
-export default function Login() {
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginInputs>({
+export default function Register() {
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterInputs>({
     mode: 'onBlur',
     defaultValues: {
       username: '',
       email: null,
-      password: '',
-      passwordVerify: null
+      password: ''
     }
   });
-  const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
-    const loginRes = await UserService.login(data.username, data.password);
-    console.log(loginRes);
+  const onSubmit: SubmitHandler<RegisterInputs> = async (data) => {
+    const res = await UserService.register(data);
+    console.log(res);
   };
-
-  useEffect(() => {
-    if (localStorage.getItem('sessionToken')) {
-      router.push('/');
-    }
-  }, []);
-
 
   return (
     <Container style={{ backgroundColor: 'gray' }}>
@@ -53,7 +42,7 @@ export default function Login() {
         />
 
         <Button type="submit" variant="contained">
-          Login
+          Register
         </Button>
       </form>
     </Container>

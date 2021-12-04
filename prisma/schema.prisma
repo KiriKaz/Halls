@@ -43,7 +43,7 @@ model User {
   createTime   DateTime      @default(now())
   username     String
   profileBio   String?
-  pfp          String // URL to profile pic in-server (or out-server, really, I'm not the boss of you.)
+  pfp          String? // URL to profile pic in-server (or out-server, really, I'm not the boss of you.)
   password     String
   authLevel    AuthLevel     @default(USER)
   // System integration later
