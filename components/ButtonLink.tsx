@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Button from '@mui/material/Button';
 
 const Stuff = ({ ...props }) => (
-  <Link href={props.href} as={props.hrefAs} prefetch>
+  <Link href={props.href} as={props.hrefAs}>
     <a className={props.className}>
       {props.children}
     </a>

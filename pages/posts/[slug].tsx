@@ -1,14 +1,14 @@
-import { Post, PrismaClient } from '.prisma/client';
 import { Typography } from '@mui/material';
-import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
+import type { GetServerSideProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { useCallback, useMemo } from 'react';
 import { createEditor, Descendant } from 'slate';
 import { withHistory } from 'slate-history';
 import { Editable, Slate, withReact } from 'slate-react';
 import client from '../../lib/prisma';
-import { CodeElement, DefaultElement, Leaf } from '../writer/createpost';
 
+import { CodeElement, DefaultElement } from '../../components/editor/elements';
+import { Leaf } from '../../components/editor/Leaf';
 
 interface Params extends ParsedUrlQuery {
   slug: string
@@ -32,20 +32,10 @@ export const getServerSideProps: GetServerSideProps<any, Params> = async (contex
   return {
     props: {
       title: post.title,
-      value: JSON.parse(post.content)
+      value: JSON.parse(post.content as string) // Seems stupid.
     }
   };
 };
-
-// const Home = ({ post }: { post: any }) => { 
-//   return (
-//     <div>
-//       {post.title} {' '}
-//       {post.slug} {' '}
-//       {post.content} {' '}
-//     </div>
-//   );
-// };
 
 const Home = ({ title, value }: { title: string, value: Descendant[] }) => {
 
