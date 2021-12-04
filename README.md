@@ -21,6 +21,7 @@ I want to have a unique, interesting and engaging way for friends and strangers 
 5. Prisma ORM
 6. PostgreSQL
 7. Slate
+8. JWT (jsonwebtoken)
 
 ## Sounds great! Can I help you make this?
 
