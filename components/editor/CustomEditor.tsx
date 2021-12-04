@@ -1,5 +1,5 @@
-import axios from "axios";
 import { Descendant, Editor, Element, Text, Transforms } from "slate";
+import PostService from '../../src/services/postService';
 
 const CustomEditor = {
 
@@ -234,9 +234,11 @@ const CustomEditor = {
     );
   },
 
-  savePost: async (value: string | Descendant[], slug: string) => {
+  savePost: async (value: string | Descendant[], slug: string, userId: string) => {
     const content = JSON.stringify(value);
-    await axios.post('/api/posts/create', { content, slug });
+
+    await PostService.create({ content, slug, userId });
+    // await axios.post('/api/posts/create', { content, slug });
   }
 };
 

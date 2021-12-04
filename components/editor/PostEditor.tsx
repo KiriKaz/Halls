@@ -10,6 +10,7 @@ import { Toolbar as SlateToolbar } from './Toolbar';
 import { Leaf } from './Leaf';
 import { CustomElement } from '../../types/CustomElement';
 import { Paper } from '@mui/material';
+import { useAppSelector } from '../../src/hooks';
 
 export const PostEditor = ({ slug }: { slug: string }) => {
   const initialValue: CustomElement[] = [
@@ -33,6 +34,7 @@ export const PostEditor = ({ slug }: { slug: string }) => {
   }, []);
 
   const [value, setValue] = useState<Descendant[]>(initialValue);
+  const profile = useAppSelector(state => state.authentication);
 
   // const editor = useMemo(() => withReact(withHistory(createEditor())), []);
   const [editor] = useState(withReact(withHistory(createEditor())));
@@ -47,7 +49,8 @@ export const PostEditor = ({ slug }: { slug: string }) => {
             if (!e.ctrlKey) return;
             if (isHotkey('mod+s', e)) {
               e.preventDefault();
-              await editorFunctions.savePost(value, slug);
+              if (profile.id === null) return alert('No?');
+              await editorFunctions.savePost(value, slug, profile.id);
             }
             if (isHotkey('mod+`', e)) {
               e.preventDefault();

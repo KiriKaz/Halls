@@ -26,7 +26,7 @@ const Navbar = () => {
               </IconButton>
             </Grid>
             <Grid item>
-              <Button color="inherit">Login</Button>
+              <ButtonLink to="/" color="inherit">Login</ButtonLink>
             </Grid>
           </Grid>
         </Toolbar>
