@@ -19,6 +19,10 @@ export type Theming = {
   darkmode: boolean
 }
 
+export type WritingState = {
+  slug: string
+}
+
 export type CustomError = {
   code?: number,
   message: string

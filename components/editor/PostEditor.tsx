@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { createEditor, Descendant } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
@@ -15,7 +15,7 @@ import { enqueueSnackbar } from '../../src/features/notification';
 
 
 
-export const PostEditor = ({ slug }: { slug: string }) => {
+export const PostEditor = () => {
   const initialValue: CustomElement[] = [
     {
       type: 'paragraph',
@@ -38,16 +38,17 @@ export const PostEditor = ({ slug }: { slug: string }) => {
 
   const dispatch = useAppDispatch();
   const profile = useAppSelector(state => state.authentication);
+  const post = useAppSelector(state => state.writing);
   const [value, setValue] = useState<Descendant[]>(initialValue);
 
   useNotifier();
 
-  // const editor = useMemo(() => withReact(withHistory(createEditor())), []);
-  const [editor] = useState(withReact(withHistory(createEditor())));
+  const editor = useMemo(() => withReact(withHistory(createEditor())), []);
+  // const [editor] = useState(withReact(withHistory(createEditor())));
   return (
     <Paper elevation={2} style={{ padding: 12 }}>
       <Slate value={value} onChange={setValue} editor={editor}>
-        <SlateToolbar value={value} slug={slug} />
+        <SlateToolbar value={value} />
         <Editable
           renderElement={renderElement}
           renderLeaf={renderLeaf}
@@ -65,7 +66,7 @@ export const PostEditor = ({ slug }: { slug: string }) => {
                   }
                 }));
               }
-              const res = await fn.savePost(value, slug);
+              const res = await fn.savePost(value, post.slug);
               if (res.error) {
                 dispatch(enqueueSnackbar({
                   message: `Something went wrong... "${res.data}"`,

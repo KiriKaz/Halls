@@ -18,13 +18,15 @@ import { Descendant } from 'slate';
 
 import fn from './CustomEditor';
 import { useSlate } from 'slate-react';
-import { useAppDispatch } from '../../src/hooks';
+import { useAppDispatch, useAppSelector } from '../../src/hooks';
 import { enqueueSnackbar } from '../../src/features/notification';
+// import { setSlug } from '../../src/features/post/currentWriting';
 
-export const Toolbar = ({ value, slug }: { value: Descendant[], slug: string }) => {
+export const Toolbar = ({ value }: { value: Descendant[] }) => {
 
   const editor = useSlate();
   const dispatch = useAppDispatch();
+  const post = useAppSelector(state => state.writing);
 
   return (
     <Grid container flexDirection='row' justifyContent='space-between'>
@@ -67,7 +69,7 @@ export const Toolbar = ({ value, slug }: { value: Descendant[], slug: string }) 
       <Grid item>
         <ButtonGroup variant='contained' color='primary' size='small'>
           <Button onClick={async () => {
-            const res = await fn.savePost(value, slug);
+            const res = await fn.savePost(value, post.slug);
             if (res.error) {
               dispatch(enqueueSnackbar({
                 message: `Something went wrong... "${res.data}"`,
