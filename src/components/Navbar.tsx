@@ -8,8 +8,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import PostaddIcon from '@mui/icons-material/Postadd';
 import CreateIcon from '@mui/icons-material/Create';
-import { useAppDispatch, useAppSelector } from '../src/hooks';
-import { initializeUser, logout } from '../src/features/authentication/login';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { initializeUser, logout } from '../features/authentication/login';
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);

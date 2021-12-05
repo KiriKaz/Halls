@@ -18,8 +18,8 @@ import { Descendant } from 'slate';
 
 import fn from './CustomEditor';
 import { useSlate } from 'slate-react';
-import { useAppDispatch, useAppSelector } from '../../src/hooks';
-import { enqueueSnackbar } from '../../src/features/notification';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { enqueueSnackbar } from '../../features/notification';
 // import { setSlug } from '../../src/features/post/currentWriting';
 
 export const Toolbar = ({ value }: { value: Descendant[] }) => {

@@ -1,5 +1,5 @@
 import { Descendant, Editor, Element, Text, Transforms } from "slate";
-import PostService from '../../src/services/postService';
+import PostService from '../../services/postService';
 
 const CustomEditor = {
 

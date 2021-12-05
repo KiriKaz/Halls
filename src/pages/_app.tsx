@@ -1,7 +1,7 @@
 import '../../styles/globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import Navbar from '../../components/Navbar';
+import Navbar from '../components/Navbar';
 import { Theme, ThemeProvider } from '@emotion/react';
 import { Provider } from 'react-redux';
 import { SnackbarProvider } from 'notistack';

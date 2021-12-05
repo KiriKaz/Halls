@@ -3,7 +3,7 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import client from '../../lib/prisma';
 import { Container, Divider, List, ListItem, ListItemButton, ListItemText, Paper, Typography } from "@mui/material";
-import { ButtonLink } from "../../../components/ButtonLink";
+import { ButtonLink } from "../../components/ButtonLink";
 
 interface Post {
   rawContent?: any,

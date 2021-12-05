@@ -8,10 +8,10 @@ import fn from './CustomEditor';
 import { CodeElement, DefaultElement } from './elements';
 import { Toolbar as SlateToolbar } from './Toolbar';
 import { Leaf } from './Leaf';
-import { CustomElement } from '../../types/CustomElement';
+import { CustomElement } from '../../../types/CustomElement';
 import { Paper } from '@mui/material';
-import { useAppSelector, useAppDispatch, useNotifier } from '../../src/hooks';
-import { enqueueSnackbar } from '../../src/features/notification';
+import { useAppSelector, useAppDispatch, useNotifier } from '../../hooks';
+import { enqueueSnackbar } from '../../features/notification';
 
 
 

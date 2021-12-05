@@ -1,7 +1,7 @@
 import { Container, Paper, TextField, Typography } from "@mui/material";
 import router from "next/router";
 import { useEffect, useState } from "react";
-import { PostEditor } from "../../../components/editor";
+import { PostEditor } from "../../components/editor";
 import { initializeNewPost, sanitizeAndSetSlug } from "../../features/post/currentWriting";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 

@@ -7,8 +7,8 @@ import { withHistory } from 'slate-history';
 import { Editable, Slate, withReact } from 'slate-react';
 import client from '../../lib/prisma';
 
-import { CodeElement, DefaultElement } from '../../../components/editor/elements';
-import { Leaf } from '../../../components/editor/Leaf';
+import { CodeElement, DefaultElement } from '../../components/editor/elements';
+import { Leaf } from '../../components/editor/Leaf';
 import { Post, User } from '.prisma/client';
 import { useAppSelector } from '../../hooks';
 
