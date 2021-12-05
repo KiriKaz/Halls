@@ -107,7 +107,7 @@ export const Toolbar = ({ editor, value, slug }: { editor: Editor, value: Descen
             onClick={async (e) => {
               e.preventDefault();
               if (profile.id === null) return alert('Still no.');
-              await editorFunctions.savePost(value, slug, profile.id);
+              await editorFunctions.savePost(value, slug);
             }}
           >
             <SaveIcon />
