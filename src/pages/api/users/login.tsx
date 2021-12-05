@@ -4,14 +4,14 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-import { SECRET } from '../../../src/lib/config';
-import client from '../../../src/lib/prisma';
+import { SECRET } from '../../../lib/config';
+import client from '../../../lib/prisma';
 
 type Error = {
   error: string
 };
 
-import type { SessionToken } from '../../../src/types';
+import type { SessionToken } from '../../../types';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Error | SessionToken>) => {
   const { username, password } = req.body;

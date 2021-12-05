@@ -3,7 +3,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Button, Container, FormControl, InputLabel, TextField } from '@mui/material';
 
 import axios from 'axios';
-import { UserService } from "../../src/services/userService";
+import { UserService } from "../../services/userService";
 
 
 type RegisterInputs = {

@@ -4,10 +4,10 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-import { SECRET } from '../../../src/lib/config';
+import { SECRET } from '../../../lib/config';
 
-import client from '../../../src/lib/prisma';
-import { getAuthHeader } from '../../../src/lib/auth';
+import client from '../../../lib/prisma';
+import { getAuthHeader } from '../../../lib/auth';
 
 type Error = {
   error: string

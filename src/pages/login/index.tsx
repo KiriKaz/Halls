@@ -3,11 +3,11 @@ import router from 'next/router';
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Button, Container, FormControl, InputLabel, TextField } from '@mui/material';
 
-import { UserService } from '../../src/services/userService';
+import { UserService } from '../../services/userService';
 
 import axios from 'axios';
-import { useAppDispatch } from "../../src/hooks";
-import { login } from "../../src/features/authentication/login";
+import { useAppDispatch } from "../../hooks";
+import { login } from "../../features/authentication/login";
 
 
 type LoginInputs = {
