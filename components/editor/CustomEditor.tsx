@@ -234,10 +234,10 @@ const CustomEditor = {
     );
   },
 
-  savePost: async (value: string | Descendant[], slug: string, userId: string) => {
+  savePost: async (value: string | Descendant[], slug: string) => {
     const content = JSON.stringify(value);
 
-    await PostService.create({ content, slug, userId });
+    await PostService.create({ content, slug });
     // await axios.post('/api/posts/create', { content, slug });
   }
 };

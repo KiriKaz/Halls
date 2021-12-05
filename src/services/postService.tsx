@@ -7,10 +7,10 @@ const setToken = (newToken: string) => {
   token = `bearer ${newToken}`;
 };
 
-const create = async (obj: { slug: string, content: string, userId: string }) => {
+const create = async (obj: { slug: string, content: string }) => {
   if (token === null) return; // TODO HANDLE
   const config = {
-    headers: { Authorization: token }  // TODO DOES FUCKING NOTHING
+    headers: { Authorization: token }
   };
   const res = await axios.post('/api/posts/create', obj, config);
   return res.data;

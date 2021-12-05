@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import sessionReducer from './features/authentication/login';
+import notificationReducer from './features/notification';
+import themingReducer from './features/theme';
 
 export const store = configureStore({
   reducer: {
-    authentication: sessionReducer
+    authentication: sessionReducer,
+    notification: notificationReducer,
+    theming: themingReducer
   }
 });
 

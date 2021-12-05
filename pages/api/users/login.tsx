@@ -4,6 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
+import { SECRET } from '../../../src/lib/config';
 import client from '../../../src/lib/prisma';
 
 type Error = {
@@ -27,8 +28,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Error | Session
 
   if (!passwordCorrect) return res.status(403).json({ error: 'PASSWORD_INCORRECT ' });
 
-  const secret = process.env.SECRET ?? 'SET_YOUR_SECRET_KEY_DUDE';
-  const signedToken = jwt.sign({ username }, secret);
+  const signedToken = jwt.sign({ id: registeredUser.id }, SECRET);
 
   const sessionToken = { token: signedToken, username, pfp: registeredUser.pfp, id: registeredUser.id };
 

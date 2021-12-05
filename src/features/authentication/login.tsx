@@ -22,7 +22,7 @@ export const sessionSlice = createSlice({
     setUserRaw: (state, action: PayloadAction<SessionToken>) => {
       return action.payload;
     },
-    logout: state => {
+    rawLogout: state => {
       return initialState;
     },
     setPfpRaw: (state, action: PayloadAction<string | null>) => {
@@ -32,7 +32,7 @@ export const sessionSlice = createSlice({
   }
 });
 
-export const { setUserRaw, logout, setPfpRaw } = sessionSlice.actions;
+export const { setUserRaw, rawLogout, setPfpRaw } = sessionSlice.actions;
 
 export const initializeUser = () => async (dispatch: AppDispatch) => {
   const loggedInUserJSON = window.localStorage.getItem('sessionToken');
@@ -42,6 +42,11 @@ export const initializeUser = () => async (dispatch: AppDispatch) => {
     postService.setToken(usr.token);
     dispatch(setUserRaw(usr));
   }
+};
+
+export const logout = () => async (dispatch: AppDispatch) => {
+  window.localStorage.removeItem('sessionToken');
+  dispatch(rawLogout());
 };
 
 export const setPfp = ({ pfp }: { pfp: string }) => async (dispatch: AppDispatch, getState: RootState) => {

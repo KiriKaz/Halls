@@ -10,7 +10,10 @@ import { Toolbar as SlateToolbar } from './Toolbar';
 import { Leaf } from './Leaf';
 import { CustomElement } from '../../types/CustomElement';
 import { Paper } from '@mui/material';
-import { useAppSelector } from '../../src/hooks';
+import { useAppSelector, useAppDispatch, useNotifier } from '../../src/hooks';
+import { enqueueSnackbar } from '../../src/features/notification';
+
+
 
 export const PostEditor = ({ slug }: { slug: string }) => {
   const initialValue: CustomElement[] = [
@@ -33,8 +36,11 @@ export const PostEditor = ({ slug }: { slug: string }) => {
     return <Leaf {...props} />;
   }, []);
 
-  const [value, setValue] = useState<Descendant[]>(initialValue);
+  const dispatch = useAppDispatch();
   const profile = useAppSelector(state => state.authentication);
+  const [value, setValue] = useState<Descendant[]>(initialValue);
+
+  useNotifier();
 
   // const editor = useMemo(() => withReact(withHistory(createEditor())), []);
   const [editor] = useState(withReact(withHistory(createEditor())));
@@ -49,8 +55,25 @@ export const PostEditor = ({ slug }: { slug: string }) => {
             if (!e.ctrlKey) return;
             if (isHotkey('mod+s', e)) {
               e.preventDefault();
-              if (profile.id === null) return alert('No?');
-              await editorFunctions.savePost(value, slug, profile.id);
+              if (profile.id === null) {
+                return dispatch(enqueueSnackbar({
+                  message: 'Failed to save post - you\'re not logged in.',
+                  options: {
+                    key: 'failedPost',
+                    variant: 'error',
+                    autoHideDuration: 5000
+                  }
+                }));
+              }
+              await editorFunctions.savePost(value, slug);
+              dispatch(enqueueSnackbar({
+                message: `Post saved under slug "${slug}"!`,
+                options: {
+                  key: 'postSaved',
+                  variant: 'success',
+                  autoHideDuration: 5000
+                }
+              }));
             }
             if (isHotkey('mod+`', e)) {
               e.preventDefault();
