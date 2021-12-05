@@ -14,14 +14,14 @@ import FormatClearIcon from '@mui/icons-material/FormatClear';
 import SaveIcon from '@mui/icons-material/Save';
 
 import { Button, ButtonGroup, Grid } from "@mui/material";
-import { Descendant, Editor } from 'slate';
+import { Descendant } from 'slate';
 
-import editorFunctions from './CustomEditor';
-import axios from 'axios';
-import { useAppSelector } from '../../src/hooks';
+import fn from './CustomEditor';
+import { useSlate } from 'slate-react';
 
-export const Toolbar = ({ editor, value, slug }: { editor: Editor, value: Descendant[], slug: string }) => {
-  const profile = useAppSelector(state => state.authentication);
+export const Toolbar = ({ value, slug }: { value: Descendant[], slug: string }) => {
+
+  const editor = useSlate();
 
   return (
     <Grid container flexDirection='row' justifyContent='space-between'>
@@ -29,60 +29,25 @@ export const Toolbar = ({ editor, value, slug }: { editor: Editor, value: Descen
         <Grid item>
           <ButtonGroup variant='contained' color='secondary' size='small'>
             {/* Natural language formatting group */}
-            <Button
-              onClick={e => {
-                e.preventDefault();
-                editorFunctions.toggleBold(editor);
-              }}
-            >
-              <FormatBold />
+            <Button onClick={() => fn.toggleBold(editor)}>
+              <FormatBold color={fn.isBold(editor) ? 'inherit' : 'action'} />
             </Button>
-            <Button
-              onClick={e => {
-                e.preventDefault();
-                editorFunctions.toggleItalics(editor);
-              }}
-            >
-              <FormatItalic />
+            <Button onClick={() => fn.toggleItalics(editor)}>
+              <FormatItalic color={fn.isItalics(editor) ? 'inherit' : 'action'} />
             </Button>
-            <Button
-              onClick={e => {
-                e.preventDefault();
-                editorFunctions.toggleStrikethrough(editor);
-              }}
-            >
-              <FormatStrikethrough />
+            <Button onClick={() => fn.toggleStrikethrough(editor)}>
+              <FormatStrikethrough color={fn.isStrikethrough(editor) ? 'inherit' : 'action'} />
             </Button>
-            <Button
-              onClick={e => {
-                e.preventDefault();
-                editorFunctions.toggleUnderline(editor);
-              }}
-            >
-              <FormatUnderlined />
+            <Button onClick={() => fn.toggleUnderline(editor)}>
+              <FormatUnderlined color={fn.isUnderline(editor) ? 'inherit' : 'action'} />
             </Button>
-            <Button
-              onClick={e => {
-                e.preventDefault();
-                editorFunctions.toggleSuperscript(editor);
-              }}
-            >
-              <SuperscriptIcon />
+            <Button onClick={() => fn.toggleSuperscript(editor)}>
+              <SuperscriptIcon color={fn.isSuperscript(editor) ? 'inherit' : 'action'} />
             </Button>
-            <Button
-              onClick={e => {
-                e.preventDefault();
-                editorFunctions.toggleSubscript(editor);
-              }}
-            >
-              <SubscriptIcon />
+            <Button onClick={() => fn.toggleSubscript(editor)}>
+              <SubscriptIcon color={fn.isSubscript(editor) ? 'inherit' : 'action'} />
             </Button>
-            <Button
-              onClick={e => {
-                e.preventDefault();
-                editorFunctions.resetTags(editor);
-              }}
-            >
+            <Button onClick={() => fn.resetTags(editor)}>
               <FormatClearIcon />
             </Button>
           </ButtonGroup>
@@ -90,12 +55,7 @@ export const Toolbar = ({ editor, value, slug }: { editor: Editor, value: Descen
         <Grid item>
           <ButtonGroup variant='contained' color='secondary' size='small'>
             {/* Edit element group */}
-            <Button
-              onClick={e => {
-                e.preventDefault();
-                editorFunctions.toggleCodeBlock(editor);
-              }}
-            >
+            <Button onClick={() => fn.toggleCodeBlock(editor)}>
               <FormatQuote />
             </Button>
           </ButtonGroup>
@@ -103,13 +63,7 @@ export const Toolbar = ({ editor, value, slug }: { editor: Editor, value: Descen
       </Grid>
       <Grid item>
         <ButtonGroup variant='contained' color='primary' size='small'>
-          <Button
-            onClick={async (e) => {
-              e.preventDefault();
-              if (profile.id === null) return alert('Still no.');
-              await editorFunctions.savePost(value, slug);
-            }}
-          >
+          <Button onClick={async () => await fn.savePost(value, slug)}>
             <SaveIcon />
           </Button>
         </ButtonGroup>
