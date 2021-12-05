@@ -10,4 +10,4 @@ const Stuff = ({ ...props }) => (
   </Link>
 );
 
-export const ButtonLink = ({ to, children }: { to: string, children: any }) => <Button component={Stuff} href={to}>{children}</Button>;
+export const ButtonLink = ({ to, children, ...props }: { to: string, children: any }) => <Button {...props} component={Stuff} href={to}>{children}</Button>;

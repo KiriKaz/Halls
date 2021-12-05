@@ -1,4 +1,4 @@
-import { UserService } from '../services/userService';
+import { UserService } from '../src/services/userService';
 import { Button } from '@mui/material';
 
 export default function Logout() {

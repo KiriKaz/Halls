@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import bcrypt from 'bcrypt';
 
-import client from '../../../lib/prisma';
+import client from '../../../src/lib/prisma';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<User>) => {
   const { username, email, password } = req.body;

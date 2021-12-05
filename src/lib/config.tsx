@@ -1,0 +1,1 @@
+export const SECRET = process.env.SECRET || 'SET THIS SECRET IN YOUR .ENV!';
