@@ -1,7 +1,7 @@
 import { Descendant, Editor, Element, Text, Transforms } from "slate";
 import PostService from '../../services/postService';
 
-const CustomEditor = {
+const customEditor = {
 
   isBold: (editor: Editor) => {
     const [match] = Editor.nodes(editor, {
@@ -113,7 +113,7 @@ const CustomEditor = {
 
 
   toggleBold: (editor: Editor) => {
-    const isActive = CustomEditor.isBold(editor);
+    const isActive = customEditor.isBold(editor);
     Transforms.setNodes(
       editor,
       { bold: isActive ? undefined : true },
@@ -122,7 +122,7 @@ const CustomEditor = {
   },
 
   toggleItalics: (editor: Editor) => {
-    const isActive = CustomEditor.isItalics(editor);
+    const isActive = customEditor.isItalics(editor);
     Transforms.setNodes(
       editor,
       { italic: isActive ? undefined : true },
@@ -131,7 +131,7 @@ const CustomEditor = {
   },
 
   toggleStrikethrough: (editor: Editor) => {
-    const isActive = CustomEditor.isStrikethrough(editor);
+    const isActive = customEditor.isStrikethrough(editor);
     Transforms.setNodes(
       editor,
       { strikethrough: isActive ? undefined : true },
@@ -140,7 +140,7 @@ const CustomEditor = {
   },
 
   toggleUnderline: (editor: Editor) => {
-    const isActive = CustomEditor.isUnderline(editor);
+    const isActive = customEditor.isUnderline(editor);
     Transforms.setNodes(
       editor,
       { underline: isActive ? undefined : true },
@@ -149,7 +149,7 @@ const CustomEditor = {
   },
 
   toggleSuperscript: (editor: Editor) => {
-    const isActive = CustomEditor.isSuperscript(editor);
+    const isActive = customEditor.isSuperscript(editor);
     Transforms.setNodes(
       editor,
       { superscript: isActive ? undefined : true },
@@ -158,7 +158,7 @@ const CustomEditor = {
   },
 
   toggleSubscript: (editor: Editor) => {
-    const isActive = CustomEditor.isSubscript(editor);
+    const isActive = customEditor.isSubscript(editor);
     Transforms.setNodes(
       editor,
       { subscript: isActive ? undefined : true },
@@ -167,7 +167,7 @@ const CustomEditor = {
   },
 
   toggleSpoiler: (editor: Editor) => {
-    const isActive = CustomEditor.isSpoiler(editor);
+    const isActive = customEditor.isSpoiler(editor);
     Transforms.setNodes(
       editor,
       { discordSpoiler: isActive ? undefined : true },
@@ -176,7 +176,7 @@ const CustomEditor = {
   },
 
   toggleSmallcaps: (editor: Editor) => {
-    const isActive = CustomEditor.isSmallcaps(editor);
+    const isActive = customEditor.isSmallcaps(editor);
     Transforms.setNodes(
       editor,
       { smallcaps: isActive ? undefined : true },
@@ -185,7 +185,7 @@ const CustomEditor = {
   },
 
   toggleFullWidth: (editor: Editor) => {
-    const isActive = CustomEditor.isFullWidth(editor);
+    const isActive = customEditor.isFullWidth(editor);
     Transforms.setNodes(
       editor,
       { fullWidth: isActive ? undefined : true },
@@ -194,7 +194,7 @@ const CustomEditor = {
   },
 
   toggleUpsideDown: (editor: Editor) => {
-    const isActive = CustomEditor.isUpsideDown(editor);
+    const isActive = customEditor.isUpsideDown(editor);
     Transforms.setNodes(
       editor,
       { upsideDown: isActive ? undefined : true },
@@ -226,7 +226,7 @@ const CustomEditor = {
   },
 
   toggleCodeBlock: (editor: Editor) => {
-    const isActive = CustomEditor.isCodeBlockActive(editor);
+    const isActive = customEditor.isCodeBlockActive(editor);
     Transforms.setNodes(
       editor,
       { type: isActive ? undefined : 'code' },
@@ -247,4 +247,4 @@ const CustomEditor = {
   }
 };
 
-export default CustomEditor;
+export default customEditor;

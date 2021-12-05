@@ -4,7 +4,7 @@ import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import isHotkey from 'is-hotkey';
 
-import fn from './CustomEditor';
+import fn from './customEditor';
 import { CodeElement, DefaultElement } from './elements';
 import { Toolbar as SlateToolbar } from './Toolbar';
 import { Leaf } from './Leaf';

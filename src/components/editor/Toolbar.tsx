@@ -16,7 +16,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import { Button, ButtonGroup, Grid } from "@mui/material";
 import { Descendant } from 'slate';
 
-import fn from './CustomEditor';
+import fn from './customEditor';
 import { useSlate } from 'slate-react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { enqueueSnackbar } from '../../features/notification';
