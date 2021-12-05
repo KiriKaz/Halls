@@ -4,7 +4,7 @@ import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import isHotkey from 'is-hotkey';
 
-import editorFunctions from './CustomEditor';
+import fn from './CustomEditor';
 import { CodeElement, DefaultElement } from './elements';
 import { Toolbar as SlateToolbar } from './Toolbar';
 import { Leaf } from './Leaf';
@@ -47,7 +47,7 @@ export const PostEditor = ({ slug }: { slug: string }) => {
   return (
     <Paper elevation={2} style={{ padding: 12 }}>
       <Slate value={value} onChange={setValue} editor={editor}>
-        <SlateToolbar editor={editor} value={value} slug={slug} />
+        <SlateToolbar value={value} slug={slug} />
         <Editable
           renderElement={renderElement}
           renderLeaf={renderLeaf}
@@ -65,47 +65,58 @@ export const PostEditor = ({ slug }: { slug: string }) => {
                   }
                 }));
               }
-              await editorFunctions.savePost(value, slug);
-              dispatch(enqueueSnackbar({
-                message: `Post saved under slug "${slug}"!`,
-                options: {
-                  key: 'postSaved',
-                  variant: 'success',
-                  autoHideDuration: 5000
-                }
-              }));
+              const res = await fn.savePost(value, slug);
+              if (res.error) {
+                dispatch(enqueueSnackbar({
+                  message: `Something went wrong... "${res.data}"`,
+                  options: {
+                    key: 'failedPost',
+                    variant: 'error',
+                    autoHideDuration: 5000
+                  }
+                }));
+              } else {
+                dispatch(enqueueSnackbar({
+                  message: `Post saved under slug "${res.data.slug}"!`,
+                  options: {
+                    key: 'postSaved',
+                    variant: 'success',
+                    autoHideDuration: 5000
+                  }
+                }));
+              }
             }
             if (isHotkey('mod+`', e)) {
               e.preventDefault();
-              editorFunctions.toggleCodeBlock(editor);
+              fn.toggleCodeBlock(editor);
             }
             if (isHotkey('mod+b', e)) {
               e.preventDefault();
-              editorFunctions.toggleBold(editor);
+              fn.toggleBold(editor);
             }
             if (isHotkey('mod+i', e)) {
               e.preventDefault();
-              editorFunctions.toggleItalics(editor);
+              fn.toggleItalics(editor);
             }
             if (isHotkey('mod+k', e)) {
               e.preventDefault();
-              editorFunctions.toggleStrikethrough(editor);
+              fn.toggleStrikethrough(editor);
             }
             if (isHotkey('mod+u', e)) {
               e.preventDefault();
-              editorFunctions.toggleUnderline(editor);
+              fn.toggleUnderline(editor);
             }
             if (isHotkey('mod+y', e)) {
               e.preventDefault();
-              editorFunctions.toggleSuperscript(editor);
+              fn.toggleSuperscript(editor);
             }
             if (isHotkey('mod+h', e)) {
               e.preventDefault();
-              editorFunctions.toggleSubscript(editor);
+              fn.toggleSubscript(editor);
             }
             if (isHotkey('mod+r', e)) {
               e.preventDefault();
-              editorFunctions.resetTags(editor);
+              fn.resetTags(editor);
             }
           }}
         />

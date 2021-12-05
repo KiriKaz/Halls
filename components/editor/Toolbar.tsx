@@ -18,10 +18,13 @@ import { Descendant } from 'slate';
 
 import fn from './CustomEditor';
 import { useSlate } from 'slate-react';
+import { useAppDispatch } from '../../src/hooks';
+import { enqueueSnackbar } from '../../src/features/notification';
 
 export const Toolbar = ({ value, slug }: { value: Descendant[], slug: string }) => {
 
   const editor = useSlate();
+  const dispatch = useAppDispatch();
 
   return (
     <Grid container flexDirection='row' justifyContent='space-between'>
@@ -63,7 +66,28 @@ export const Toolbar = ({ value, slug }: { value: Descendant[], slug: string }) 
       </Grid>
       <Grid item>
         <ButtonGroup variant='contained' color='primary' size='small'>
-          <Button onClick={async () => await fn.savePost(value, slug)}>
+          <Button onClick={async () => {
+            const res = await fn.savePost(value, slug);
+            if (res.error) {
+              dispatch(enqueueSnackbar({
+                message: `Something went wrong... "${res.data}"`,
+                options: {
+                  key: 'failedPost',
+                  variant: 'error',
+                  autoHideDuration: 5000
+                }
+              }));
+            } else {
+              dispatch(enqueueSnackbar({
+                message: `Post saved under slug "${res.data.slug}"!`,
+                options: {
+                  key: 'postSaved',
+                  variant: 'success',
+                  autoHideDuration: 5000
+                }
+              }));
+            }
+          }}>
             <SaveIcon />
           </Button>
         </ButtonGroup>

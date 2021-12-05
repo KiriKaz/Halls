@@ -12,8 +12,12 @@ const create = async (obj: { slug: string, content: string }) => {
   const config = {
     headers: { Authorization: token }
   };
-  const res = await axios.post('/api/posts/create', obj, config);
-  return res.data;
+  try {
+    const res = await axios.post('/api/posts/create', obj, config);
+    return res.data;
+  } catch (e: any) {
+    return { message: e.message };
+  }
 };
 
 // const comment = async (id, comment) => {

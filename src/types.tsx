@@ -18,3 +18,8 @@ export type Notification = {
 export type Theming = {
   darkmode: boolean
 }
+
+export type CustomError = {
+  code?: number,
+  message: string
+}

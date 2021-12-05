@@ -237,8 +237,13 @@ const CustomEditor = {
   savePost: async (value: string | Descendant[], slug: string) => {
     const content = JSON.stringify(value);
 
-    await PostService.create({ content, slug });
-    // await axios.post('/api/posts/create', { content, slug });
+    const r = await PostService.create({ content, slug });
+
+    if (r.message) {
+      return { error: true, data: r.message };
+    }
+
+    return { error: false, data: r };
   }
 };
 
