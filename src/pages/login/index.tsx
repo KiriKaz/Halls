@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
 import router from 'next/router';
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { Button, Container, FormControl, InputLabel, TextField } from '@mui/material';
+import { Button, Container, Grid, TextField } from '@mui/material';
 
-import { UserService } from '../../services/userService';
-
-import axios from 'axios';
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { login } from "../../features/authentication/login";
 
 
@@ -29,38 +26,43 @@ export default function Login() {
   });
 
   const dispatch = useAppDispatch();
+  const profile = useAppSelector(state => state.authentication);
 
   const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
-    // const loginRes = await UserService.login(data.username, data.password);
-    const loginRes = dispatch(login({ username: data.username, password: data.password }));
+    dispatch(login({ username: data.username, password: data.password }));
   };
 
   useEffect(() => {
-    if (localStorage.getItem('sessionToken')) {
-      router.push('/');
-    }
-  }, []);
+    if (profile.token || profile.username) router.push('/');
+  }, [profile]);
 
 
   return (
-    <Container style={{ backgroundColor: 'gray' }}>
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-        <TextField
-          id="username"
-          variant="filled"
-          {...register('username', { required: true, maxLength: 20 })}
-        />
-        <TextField
-          id="password"
-          type="password"
-          variant="filled"
-          {...register('password', { required: true })}
-        />
-
-        <Button type="submit" variant="contained">
-          Login
-        </Button>
-      </form>
-    </Container>
+    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <Container style={{ backgroundColor: 'gray', marginTop: 32 }} maxWidth='xs'>
+        <Grid container direction='column' spacing={4} justifyContent='space-around' height={300}>
+          <Grid item>
+            <TextField
+              id="username"
+              variant="filled"
+              fullWidth
+              {...register('username', { required: true, maxLength: 20 })}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              id="password"
+              type="password"
+              variant="filled"
+              fullWidth
+              {...register('password', { required: true })}
+            />
+          </Grid>
+          <Grid item>
+            <Button fullWidth type="submit" variant="contained">Login</Button>
+          </Grid>
+        </Grid>
+      </Container >
+    </form>
   );
 }
