@@ -17,13 +17,14 @@ const RenderSlug = () => {
 
 const CreatePost = () => {
   const dispatch = useAppDispatch();
+  const profile = useAppSelector(state => state.authentication);
 
   useEffect(() => {
-    if (!localStorage.getItem('sessionToken')) {  // TODO take from redux instead, redux will handle loading from localStorage
+    if (!profile.token || !profile.username) {
       router.push('/login');
     }
     dispatch(initializeNewPost());
-  }, [dispatch]);
+  }, [dispatch, profile]);
 
   return (
     <Container maxWidth='md'>
