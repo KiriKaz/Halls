@@ -60,7 +60,7 @@ const Navbar = () => {
           </Grid>
         </Toolbar>
       </AppBar>
-      <Toolbar sx={{ padding: 1 }} />
+      <Toolbar style={{ padding: 45 }} />
       <Drawer open={open} onClose={() => setOpen(false)}>
         <List>
           <ListItem>

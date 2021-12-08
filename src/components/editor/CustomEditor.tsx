@@ -234,17 +234,31 @@ const customEditor = {
     );
   },
 
-  savePost: async (value: string | Descendant[], slug: string) => {
+  savePost: async (value: string | Descendant[], slug: string, title: string) => {
     const content = JSON.stringify(value);
 
-    const r = await PostService.create({ content, slug });
+    const r = await PostService.upsert({ content, slug, title });
 
-    if (r.message) {
+    if (r.message) { // TODO fix this mess
       return { error: true, data: r.message };
     }
 
     return { error: false, data: r };
-  }
+  },
+
+  // updatePost: async (value: string | Descendant[], slug: string) => {
+  //   const content = JSON.stringify(value);
+
+  //   const prisma = (await import('../../lib/prisma')).default;
+
+  //   prisma.post.update({
+  //     where: { }
+  //   })
+
+  //   // const r = await PostService.update(slug, { content });
+
+  //   return { data: r };
+  // }
 };
 
 export default customEditor;

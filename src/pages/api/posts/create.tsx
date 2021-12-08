@@ -14,7 +14,7 @@ type Error = {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Post | Error>) => {
-  const { slug, content } = req.body;
+  const { slug, content, title } = req.body;
   const token = getAuthHeader(req);
 
   if (token === null) return res.status(403).json({ error: 'USER_NOT_AUTHENTICATED ' });
@@ -26,12 +26,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Post | Error>) 
     return res.status(500).json({ error: e.message });
   }
 
-  const stuff = await client.post.create({
-    data: {
+  const jsonContent = JSON.parse(content);
+
+  const stuff = await client.post.upsert({
+    where: { slug },
+    create: {
       slug,
-      title: slug,
-      content,
+      title,
+      content: jsonContent,
       userId: verifiedToken.id
+    },
+    update: {
+      content: jsonContent,
+      title
     }
   });
 

@@ -1,33 +1,24 @@
-import React from "react";
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import React, { useEffect } from "react";
+// import { GetServerSideProps, GetStaticProps, InferGetServerSidePropsType, InferGetStaticPropsType } from 'next';
 
-import client from '../../lib/prisma';
 import { Container, Divider, List, ListItem, ListItemButton, ListItemText, Paper, Typography } from "@mui/material";
+
+import postService from '../../services/postService';
 import { ButtonLink } from "../../components/ButtonLink";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { setPosts } from "../../features/post/posts";
 
-interface Post {
-  rawContent?: any,
-  id: any,
-  slug: string,
-  title: string
-}  // Define this type elsewhere -- probably in the entity or smth. Depends on backend, especially if using ORM.
+const Posts = () => {
 
-interface IPostsProps {
-  posts: Post[]
-}
+  const dispatch = useAppDispatch();
+  const posts = useAppSelector(state => state.posts);
 
-export const getStaticProps: GetStaticProps<IPostsProps> = async () => {
+  useEffect(() => {
+    postService.getAll().then(posts => { // TODO can be done with GetServerSideProps instead, but translating it back to what it used to be is gonna take some effort
+      dispatch(setPosts(posts));
+    });
+  }, [dispatch]);
 
-  let posts = await client.post.findMany({});
-
-  return {
-    props: {
-      posts
-    }
-  };
-};
-
-const Posts = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <Container>
       <Paper elevation={2}>

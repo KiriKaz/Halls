@@ -12,6 +12,7 @@ import { CustomElement } from '../../../types/CustomElement';
 import { Paper } from '@mui/material';
 import { useAppSelector, useAppDispatch, useNotifier } from '../../hooks';
 import { enqueueSnackbar } from '../../features/notification';
+import { currySlug } from '../../features/post/currentWriting';
 
 
 
@@ -66,7 +67,7 @@ export const PostEditor = () => {
                   }
                 }));
               }
-              const res = await fn.savePost(value, post.slug);
+              const res = await fn.savePost(value, post.slug, post.title);
               if (res.error) {
                 dispatch(enqueueSnackbar({
                   message: `Something went wrong... "${res.data}"`,
@@ -85,6 +86,7 @@ export const PostEditor = () => {
                     autoHideDuration: 5000
                   }
                 }));
+                dispatch(currySlug());
               }
             }
             if (isHotkey('mod+`', e)) {

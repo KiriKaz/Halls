@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps<any, Params> = async (contex
     props: {
       post,
       author,
-      value: JSON.parse(post.content as string) // Seems stupid.
+      value: post.content
     }
   };
 };
@@ -69,9 +69,7 @@ const RenderPost = ({ post, value, author }: { post: Post, value: Descendant[], 
     return <Leaf {...props} />;
   }, []);
 
-  // const editor = useMemo(() => withReact(withHistory(createEditor())), []);
-
-  const [editor] = useState(withReact(withHistory(createEditor())));
+  const editor = useMemo(() => withReact(withHistory(createEditor())), []);
   return (
     <Container maxWidth='lg'>
       <Paper elevation={8} style={{ padding: 36 }}>

@@ -20,7 +20,10 @@ export type Theming = {
 }
 
 export type WritingState = {
-  slug: string
+  slug: string,
+  title: string,
+  editing?: true,
+  editingSlug?: string
 }
 
 export type CustomError = {

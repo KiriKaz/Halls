@@ -19,11 +19,11 @@ model Category {
 }
 
 model Post {
-  id           String        @id @default(cuid())
+  // id           String        @id @default(cuid())
+  slug         String        @id
   createTime   DateTime      @default(now())
   indexable    Boolean       @default(false)
   author       User          @relation(fields: [userId], references: [id])
-  slug         String
   title        String
   content      Json // Store direct Slate content
   tags         String[]
@@ -61,11 +61,11 @@ enum AuthLevel {
 }
 
 model PostReview {
-  id     String  @id @default(cuid())
-  value  Float // Out of 5
-  body   String? // Nullable for the Krises of this world (will be markdown)
-  post   Post?   @relation(fields: [postId], references: [id])
-  postId String?
+  id       String  @id @default(cuid())
+  value    Float // Out of 5
+  body     String? // Nullable for the Krises of this world (will be markdown)
+  post     Post?   @relation(fields: [postSlug], references: [slug])
+  postSlug String?
 }
 
 model PostComment {
@@ -74,8 +74,8 @@ model PostComment {
   lastEditedTime DateTime @default(now())
   author         User     @relation(fields: [userId], references: [id])
   body           String
-  post           Post?    @relation(fields: [postId], references: [id])
-  postId         String?
+  post           Post?    @relation(fields: [postSlug], references: [slug])
+  postSlug       String?
   userId         String
   postReviewId   String?  @unique
 }

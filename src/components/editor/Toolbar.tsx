@@ -20,6 +20,7 @@ import fn from './customEditor';
 import { useSlate } from 'slate-react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { enqueueSnackbar } from '../../features/notification';
+import { currySlug } from '../../features/post/currentWriting';
 // import { setSlug } from '../../src/features/post/currentWriting';
 
 export const Toolbar = ({ value }: { value: Descendant[] }) => {
@@ -69,7 +70,7 @@ export const Toolbar = ({ value }: { value: Descendant[] }) => {
       <Grid item>
         <ButtonGroup variant='contained' color='primary' size='small'>
           <Button onClick={async () => {
-            const res = await fn.savePost(value, post.slug);
+            const res = await fn.savePost(value, post.slug, post.title);
             if (res.error) {
               dispatch(enqueueSnackbar({
                 message: `Something went wrong... "${res.data}"`,
@@ -88,6 +89,7 @@ export const Toolbar = ({ value }: { value: Descendant[] }) => {
                   autoHideDuration: 5000
                 }
               }));
+              dispatch(currySlug());
             }
           }}>
             <SaveIcon />
