@@ -27,7 +27,7 @@ const Posts = () => {
         <List>
           {posts.map((post) => {
             return (
-              <ListItem key={post.id}>
+              <ListItem key={post.slug}>
                 <ListItemButton component={ButtonLink} to={`/posts/${post.slug}`}>
                   <ListItemText primary={post.title} primaryTypographyProps={{ color: 'lightcoral' }} />
                 </ListItemButton>
